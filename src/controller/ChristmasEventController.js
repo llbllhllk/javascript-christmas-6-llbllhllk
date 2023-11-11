@@ -5,11 +5,17 @@ class ChristmasEventController {
   constructor() {}
 
   static async start() {
-    const visitDate = await this.#inputVisitDate(); 
+    const visitDate = await this.#inputVisitDate();
+    const orderMenu = await this.#inputOrderMenu();
+    Console.print(orderMenu);
   }
 
   static async #inputVisitDate() {
     return InputView.readVisitDate();
+  }
+
+  static async #inputOrderMenu() {
+    return InputView.readOrderMenu();
   }
 }
 
