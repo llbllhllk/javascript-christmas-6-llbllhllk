@@ -1,9 +1,12 @@
 import { Console } from '@woowacourse/mission-utils';
 import MESSAGE from '../constants/message.js';
+import VisitDateValidator from '../validators/VisitDateValidator.js';
 
 const InputView = {
   async readVisitDate() {
-    return Console.readLineAsync(MESSAGE.read.visitDate);
+    const visitDate = await Console.readLineAsync(MESSAGE.read.visitDate);
+    VisitDateValidator.validateVisitDate(visitDate);
+    return visitDate;
   },
 
   async readOrderMenu() {

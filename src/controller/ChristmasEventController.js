@@ -7,7 +7,6 @@ class ChristmasEventController {
   static async start() {
     const visitDate = await this.#inputVisitDate();
     const orderMenu = await this.#inputOrderMenu();
-    Console.print(orderMenu);
   }
 
   static async #inputVisitDate() {
