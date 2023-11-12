@@ -13,7 +13,12 @@ const InputView = {
   async readOrderMenu() {
     const orderMenus = await Console.readLineAsync(MESSAGE.read.orderMenu);
     OrderMenuValidator.validateOrderMenu(orderMenus);
-    return orderMenus.split(',').map(item => item.split('-'));
+
+    return orderMenus
+      .split(',')
+      .map(menu => menu.trim())
+      .map(menu => menu.split('-'))
+      .map(menuAndCount => menuAndCount.map(str => str.trim()));
   },
 };
 

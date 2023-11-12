@@ -4,8 +4,12 @@ import MENU from '../constants/menu.js';
 
 class OrderMenuValidator {
   static validateOrderMenu(orderMenus) {
-    const menuItems = orderMenus.split(',').map(item => item.split('-'));
-    const validators = [this.validateNoMenu, this.validateOrderMenuQuantity];
+    const menuItems = orderMenus
+      .split(',')
+      .map(menu => menu.trim())
+      .map(menu => menu.split('-'))
+      .map(menuAndCount => menuAndCount.map(str => str.trim()));
+    const validators = [this.validateNoMenu, this.validateOrderMenuQuantity, this.validateFormat];
     validators.forEach(validator => validator(menuItems));
   }
 
@@ -21,6 +25,12 @@ class OrderMenuValidator {
     menuItems.map(menuItem => {
       const quantity = Number(menuItem[1]);
       if (quantity < CONSTANTS.menu.minQuantity) throw new Error(ERROR.menu.invalidOrder);
+    });
+  }
+
+  static validateFormat(menuItems) {
+    menuItems.forEach(item => {
+      if (item.length !== 2) throw new Error(ERROR.menu.invalidOrder);
     });
   }
 }
