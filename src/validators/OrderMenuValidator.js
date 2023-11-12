@@ -9,7 +9,12 @@ class OrderMenuValidator {
       .map(menu => menu.trim())
       .map(menu => menu.split('-'))
       .map(menuAndCount => menuAndCount.map(str => str.trim()));
-    const validators = [this.validateNoMenu, this.validateOrderMenuQuantity, this.validateFormat];
+    const validators = [
+      this.validateNoMenu,
+      this.validateOrderMenuQuantity,
+      this.validateFormat,
+      this.validateDuplicatedMenu,
+    ];
     validators.forEach(validator => validator(menuItems));
   }
 
@@ -30,8 +35,13 @@ class OrderMenuValidator {
 
   static validateFormat(menuItems) {
     menuItems.forEach(item => {
-      if (item.length !== 2) throw new Error(ERROR.menu.invalidOrder);
+      if (item.length !== CONSTANTS.menu.formatLength) throw new Error(ERROR.menu.invalidOrder);
     });
+  }
+
+  static validateDuplicatedMenu(menuItems) {
+    if (menuItems.length !== new Set(menuItems.map(item => item[0])).size)
+      throw new Error(ERROR.menu.invalidOrder);
   }
 }
 

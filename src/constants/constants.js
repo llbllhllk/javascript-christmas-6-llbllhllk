@@ -1,5 +1,6 @@
 const menu = Object.freeze({
   minQuantity: 1,
+  formatLength: 2,
 });
 
 const day = Object.freeze({
