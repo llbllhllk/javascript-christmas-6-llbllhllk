@@ -11,6 +11,7 @@ class ChristmasEventController {
 
     OutputView.printNotification(visitDate);
     OutputView.printOrderMenu(orderMenus);
+    OutputView.printOrderAmountBeforeDiscount(orderMenus);
   }
 
   static async #inputVisitDate() {
