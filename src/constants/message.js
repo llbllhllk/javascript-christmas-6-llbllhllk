@@ -8,6 +8,9 @@ const print = {
   greeting: '안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.\n',
   orderMenuResult: '<주문 메뉴>',
   orderAmountBeforeDiscountResult: '<할인 전 총주문 금액>',
+  giveawayMenuResult: '<증정 메뉴>',
+  giveawayMenuTrueResult: '샴페인 1개',
+  noResult: '없음',
 };
 
 const MESSAGE = Object.freeze({
