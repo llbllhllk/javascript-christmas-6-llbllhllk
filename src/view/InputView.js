@@ -5,20 +5,31 @@ import OrderMenuValidator from '../validators/OrderMenuValidator.js';
 
 const InputView = {
   async readVisitDate() {
-    const visitDate = await Console.readLineAsync(MESSAGE.read.visitDate);
-    VisitDateValidator.validateVisitDate(visitDate);
-    return Number(visitDate);
+    while (true) {
+      try {
+        const visitDate = await Console.readLineAsync(MESSAGE.read.visitDate);
+        VisitDateValidator.validateVisitDate(visitDate);
+        return Number(visitDate);
+      } catch ({ message }) {
+        Console.print(message);
+      }
+    }
   },
 
   async readOrderMenu() {
-    const orderMenus = await Console.readLineAsync(MESSAGE.read.orderMenu);
-    OrderMenuValidator.validateOrderMenu(orderMenus);
-
-    return orderMenus
-      .split(',')
-      .map(menu => menu.trim())
-      .map(menu => menu.split('-'))
-      .map(menuAndCount => menuAndCount.map(str => str.trim()));
+    while (true) {
+      try {
+        const orderMenus = await Console.readLineAsync(MESSAGE.read.orderMenu);
+        OrderMenuValidator.validateOrderMenu(orderMenus);
+        return orderMenus
+          .split(',')
+          .map(menu => menu.trim())
+          .map(menu => menu.split('-'))
+          .map(menuAndCount => menuAndCount.map(str => str.trim()));
+      } catch ({ message }) {
+        Console.print(message);
+      }
+    }
   },
 };
 
