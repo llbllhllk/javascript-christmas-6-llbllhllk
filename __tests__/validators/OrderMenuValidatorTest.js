@@ -68,4 +68,24 @@ describe('주문 메뉴와 개수 입력 예외 상황 테스트', () => {
     const result = () => OrderMenuValidator.validateFormat(input);
     expect(result).toThrow(ERROR.menu.invalidOrder);
   });
+
+  test('중복 메뉴가 없을 경우 undefined를 반환한다.', () => {
+    const value = [
+      ['해산물파스타', '1'],
+      ['타파스', '2'],
+      ['바비큐립', '3'],
+    ];
+    const result = OrderMenuValidator.validateDuplicatedMenu(value);
+    expect(result).toBeUndefined();
+  });
+
+  test('중복 메뉴를 입력한 경우 예외 처리를 한다.', () => {
+    const value = [
+      ['해산물파스타', '1'],
+      ['타파스', '2'],
+      ['해산물파스타', '3'],
+    ];
+    const result = () => OrderMenuValidator.validateDuplicatedMenu(value);
+    expect(result).toThrow(ERROR.menu.invalidOrder);
+  });
 });
