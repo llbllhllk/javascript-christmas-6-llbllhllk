@@ -14,7 +14,6 @@ describe('주문 금액 기능', () => {
     const menuNames = generateMenuNames(value);
     const menuPrices = generateMenuPrices(menuNames);
     const result = generateOrderAmountBeforeDiscount(menuPrices);
-
     expect(result).toEqual(expectedValue);
   });
 });
