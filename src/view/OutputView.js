@@ -4,6 +4,7 @@ import generateMenuNames from '../utils/generateMenuNames.js';
 import generateMenuPrices from '../utils/generateMenuPrices.js';
 import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
 import formatPriceWithCommas from '../utils/formatPriceWithCommas.js';
+import isAddGiveaway from '../utils/isAddGiveaway.js';
 
 const OutputView = {
   printNotification(visitDate) {
@@ -22,6 +23,17 @@ const OutputView = {
     const menuPrices = generateMenuPrices(menuNames);
     const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(menuPrices);
     Console.print(formatPriceWithCommas(orderAmountBeforeDiscount));
+    Console.print('\n');
+  },
+
+  printGiveawayMenu(orderMenus) {
+    Console.print(MESSAGE.print.giveawayMenuResult);
+    const menuNames = generateMenuNames(orderMenus);
+    const menuPrices = generateMenuPrices(menuNames);
+    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(menuPrices);
+    if (isAddGiveaway(orderAmountBeforeDiscount))
+      return Console.print(MESSAGE.print.giveawayMenuTrueResult);
+    return Console.print(MESSAGE.print.noResult);
   },
 };
 

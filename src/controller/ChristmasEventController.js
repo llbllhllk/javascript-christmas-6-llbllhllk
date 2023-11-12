@@ -1,6 +1,7 @@
 import { Console } from '@woowacourse/mission-utils';
 import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
+import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
 
 class ChristmasEventController {
   constructor() {}
@@ -12,6 +13,7 @@ class ChristmasEventController {
     OutputView.printNotification(visitDate);
     OutputView.printOrderMenu(orderMenus);
     OutputView.printOrderAmountBeforeDiscount(orderMenus);
+    OutputView.printGiveawayMenu(orderMenus);
   }
 
   static async #inputVisitDate() {
