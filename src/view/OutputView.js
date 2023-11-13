@@ -5,6 +5,8 @@ import generateMenuPrices from '../utils/generateMenuPrices.js';
 import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
 import formatPriceWithCommas from '../utils/formatPriceWithCommas.js';
 import isAddGiveaway from '../utils/isAddGiveaway.js';
+import calculateDDayDiscount from '../utils/calculateDDayDiscount.js';
+import calculateWeekDayDiscount from '../utils/calculateWeekDayDiscount.js';
 
 const OutputView = {
   printNotification(visitDate) {
@@ -34,6 +36,18 @@ const OutputView = {
     if (isAddGiveaway(orderAmountBeforeDiscount))
       return Console.print(MESSAGE.print.giveawayMenuTrueResult);
     return Console.print(MESSAGE.print.noResult);
+  },
+
+  printBenefitHistory(orderMenus, visitDate) {
+    Console.print(MESSAGE.print.benefitHistoryResult);
+    const dDayDiscountAmount = formatPriceWithCommas(calculateDDayDiscount(visitDate));
+    const menuNames = generateMenuNames(orderMenus);
+    const weekDayDiscountAmount = formatPriceWithCommas(
+      calculateWeekDayDiscount(menuNames, visitDate),
+    );
+    Console.print(`크리스마스 디데이 할인: ${dDayDiscountAmount}
+    `);
+    if (weekDayDiscountAmount > 0) Console.print(`평일 할인: ${weekDayDiscountAmount}`);
   },
 };
 

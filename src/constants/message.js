@@ -9,6 +9,7 @@ const print = {
   orderMenuResult: '<주문 메뉴>',
   orderAmountBeforeDiscountResult: '<할인 전 총주문 금액>',
   giveawayMenuResult: '<증정 메뉴>',
+  benefitHistoryResult: '\n<혜택 내역>',
   giveawayMenuTrueResult: '샴페인 1개',
   noResult: '없음',
 };
