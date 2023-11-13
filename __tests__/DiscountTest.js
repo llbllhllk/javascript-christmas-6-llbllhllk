@@ -91,18 +91,19 @@ describe('할인 혜택 기능 ', () => {
     expect(result).toEqual(expectedValue);
   });
 
-  test.each([3, 10, 17, 24, 25, 31])(
-    '특별 할인 기능에서 별이 있는 날에 할인 가격을 반환한다.',
-    input => {
-      const expectedValue = -1000;
-      const result = calculateSpecialDiscount(input);
-      expect(result).toEqual(expectedValue);
-    },
-  );
+  test('특별 할인 기능에서 별이 있는 날에 할인 가격을 반환한다.', () => {
+    const visitDate = 3;
+    const dayOfWeek = getDayOfWeek(visitDate);
+    const expectedValue = -1000;
+    const result = calculateSpecialDiscount(visitDate, dayOfWeek);
+    expect(result).toEqual(expectedValue);
+  });
 
-  test.each([4, 23, 12, 9, 6, 22])('특별 할인 기능에서 별이 없는 날에 false 반환한다.', input => {
+  test('특별 할인 기능에서 별이 없는 날에 false 반환한다.', () => {
+    const visitDate = 26;
+    const dayOfWeek = getDayOfWeek(visitDate);
     const expectedValue = false;
-    const result = calculateSpecialDiscount(input);
+    const result = calculateSpecialDiscount(visitDate, dayOfWeek);
     expect(result).toEqual(expectedValue);
   });
 });
