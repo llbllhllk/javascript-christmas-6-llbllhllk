@@ -1,4 +1,5 @@
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
+import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
 import calculateWeekDayDiscount from '../src/utils/calculateWeekDayDiscount.js';
 import generateMenuNames from '../src/utils/generateMenuNames.js';
 
@@ -40,6 +41,21 @@ describe('할인 혜택 기능 ', () => {
     const menuNames = generateMenuNames(value);
     const visitDate = 2;
     const result = calculateWeekDayDiscount(menuNames, visitDate);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test.each([3, 10, 17, 24, 25, 31])(
+    '특별 할인 기능에서 별이 있는 날에 할인 가격을 반환한다.',
+    input => {
+      const expectedValue = -1000;
+      const result = calculateSpecialDiscount(input);
+      expect(result).toEqual(expectedValue);
+    },
+  );
+
+  test.each([4, 23, 12, 9, 6, 22])('특별 할인 기능에서 별이 없는 날에 false 반환한다.', input => {
+    const expectedValue = false;
+    const result = calculateSpecialDiscount(input);
     expect(result).toEqual(expectedValue);
   });
 });
