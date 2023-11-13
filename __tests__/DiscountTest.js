@@ -1,6 +1,7 @@
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
 import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
 import calculateWeekDayDiscount from '../src/utils/calculateWeekDayDiscount.js';
+import calculateWeekEndDiscount from '../src/utils/calculateWeekEndDiscount.js';
 import generateMenuCount from '../src/utils/generateMenuCount.js';
 import generateMenuNames from '../src/utils/generateMenuNames.js';
 import generateMenusInfo from '../src/utils/generateMenusInfo.js';
@@ -53,6 +54,40 @@ describe('할인 혜택 기능 ', () => {
     const menuCount = generateMenuCount(value);
     const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
     const result = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test('주말 할인 기능에서 주말 방문 날에 디저트당 할인 가격을 반환한다.', () => {
+    const value = [
+      ['해산물파스타', '2'],
+      ['아이스크림', '1'],
+      ['초코케이크', '1'],
+    ];
+    const expectedValue = -4046;
+    const visitDate = 8;
+    const dayOfWeek = getDayOfWeek(visitDate);
+    const menuNames = generateMenuNames(value);
+    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuCount = generateMenuCount(value);
+    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
+    const result = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test('주말 할인 기능에서 주말 방문 날이 아닌 경우 false를 반환한다.', () => {
+    const value = [
+      ['해산물파스타', '2'],
+      ['아이스크림', '1'],
+      ['초코케이크', '1'],
+    ];
+    const expectedValue = false;
+    const visitDate = 4;
+    const dayOfWeek = getDayOfWeek(visitDate);
+    const menuNames = generateMenuNames(value);
+    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuCount = generateMenuCount(value);
+    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
+    const result = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
     expect(result).toEqual(expectedValue);
   });
 
