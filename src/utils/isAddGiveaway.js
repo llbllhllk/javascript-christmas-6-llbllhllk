@@ -1,7 +1,7 @@
 import CONSTANTS from '../constants/constants.js';
 
 const isAddGiveaway = orderAmountBeforeDiscount => {
-  if (orderAmountBeforeDiscount >= CONSTANTS.number.minTotalAmountForGiveaway) return true;
+  if (orderAmountBeforeDiscount >= CONSTANTS.price.minTotalAmountForGiveaway) return true;
   return false;
 };
 

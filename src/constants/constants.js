@@ -1,5 +1,7 @@
-const number = Object.freeze({
+const price = Object.freeze({
   minTotalAmountForGiveaway: 120000,
+  dDayDiscountStartAmount: 1000,
+  dDayMultiplier: 100,
 });
 
 const menu = Object.freeze({
@@ -10,10 +12,12 @@ const menu = Object.freeze({
 const day = Object.freeze({
   minDay: 1,
   maxDay: 31,
+  christmasDay: 25,
+  initialOffset: 1,
 });
 
 const CONSTANTS = Object.freeze({
-  number,
+  price,
   menu,
   day,
 });
