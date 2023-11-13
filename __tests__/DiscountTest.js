@@ -1,7 +1,11 @@
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
 import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
 import calculateWeekDayDiscount from '../src/utils/calculateWeekDayDiscount.js';
+import generateMenuCount from '../src/utils/generateMenuCount.js';
 import generateMenuNames from '../src/utils/generateMenuNames.js';
+import generateMenusInfo from '../src/utils/generateMenusInfo.js';
+import generateOrderAmountBeforeDiscount from '../src/utils/generateOrderAmountBeforeDiscount.js';
+import getDayOfWeek from '../src/utils/getDayOfWeek.js';
 
 describe('할인 혜택 기능 ', () => {
   test('방문 예정 날짜를 통해 크리스마스 디데이 할인 금액을 계산하여 할인금액을 반환한다.', () => {
@@ -25,9 +29,13 @@ describe('할인 혜택 기능 ', () => {
       ['초코케이크', '1'],
     ];
     const expectedValue = -4046;
+    const visitDate = 4;
+    const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const visitDate = 5;
-    const result = calculateWeekDayDiscount(menuNames, visitDate);
+    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuCount = generateMenuCount(value);
+    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
+    const result = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
     expect(result).toEqual(expectedValue);
   });
 
@@ -38,9 +46,13 @@ describe('할인 혜택 기능 ', () => {
       ['초코케이크', '1'],
     ];
     const expectedValue = false;
+    const visitDate = 8;
+    const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const visitDate = 2;
-    const result = calculateWeekDayDiscount(menuNames, visitDate);
+    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuCount = generateMenuCount(value);
+    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
+    const result = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
     expect(result).toEqual(expectedValue);
   });
 
