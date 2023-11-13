@@ -3,6 +3,7 @@ const price = Object.freeze({
   dDayDiscountStartAmount: 1000,
   dDayMultiplier: 100,
   discountAmount: 2023,
+  specialDiscountAmount: 1000,
 });
 
 const menu = Object.freeze({
@@ -17,6 +18,7 @@ const month = Object.freeze({
 const week = Object.freeze({
   monday: 1,
   thursday: 4,
+  sunday: 0,
 });
 
 const day = Object.freeze({
