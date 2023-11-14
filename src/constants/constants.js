@@ -30,12 +30,26 @@ const day = Object.freeze({
   initialOffset: 1,
 });
 
+const badge = Object.freeze({
+  star: '별',
+  tree: '트리',
+  santa: '산타',
+});
+
+const badgeMinPrice = {
+  star_threshold: 5000,
+  tree_threshold: 10000,
+  santa_threshold: 20000,
+};
+
 const CONSTANTS = Object.freeze({
   price,
   menu,
   day,
   week,
   month,
+  badge,
+  badgeMinPrice,
 });
 
 export default CONSTANTS;
