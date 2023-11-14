@@ -36,9 +36,9 @@ const badge = Object.freeze({
 });
 
 const badgeMinPrice = {
-  star_threshold: 5000,
-  tree_threshold: 10000,
-  santa_threshold: 20000,
+  starThreshold: 5000,
+  treeThreshold: 10000,
+  santaThreshold: 20000,
 };
 
 const CONSTANTS = Object.freeze({

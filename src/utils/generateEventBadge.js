@@ -1,13 +1,13 @@
 import CONSTANTS from '../constants/constants.js';
 
 const generateEventBadge = benefitTotalAmount => {
-  const { star_threshold, tree_threshold, santa_threshold } = CONSTANTS.badgeMinPrice;
+  const { starThreshold, treeThreshold, santaThreshold } = CONSTANTS.badgeMinPrice;
   const positiveBenefitTotalAmount = Math.abs(benefitTotalAmount);
-  if (positiveBenefitTotalAmount >= star_threshold && positiveBenefitTotalAmount < tree_threshold)
+  if (positiveBenefitTotalAmount >= starThreshold && positiveBenefitTotalAmount < treeThreshold)
     return 'star';
-  if (positiveBenefitTotalAmount >= tree_threshold && positiveBenefitTotalAmount < santa_threshold)
+  if (positiveBenefitTotalAmount >= treeThreshold && positiveBenefitTotalAmount < santaThreshold)
     return 'tree';
-  if (positiveBenefitTotalAmount >= santa_threshold) return 'santa';
+  if (positiveBenefitTotalAmount >= santaThreshold) return 'santa';
 };
 
 export default generateEventBadge;
