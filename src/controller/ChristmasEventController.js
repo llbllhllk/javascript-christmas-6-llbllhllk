@@ -33,6 +33,7 @@ class ChristmasEventController {
       dayOfWeek,
       orderAmountBeforeDiscount,
     );
+    OutputView.printEventBadge(visitDate, orderMenusInfo, dayOfWeek, orderAmountBeforeDiscount);
   }
 
   static async #inputVisitDate() {

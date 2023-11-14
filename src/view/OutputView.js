@@ -9,6 +9,8 @@ import calculateSpecialDiscount from '../utils/calculateSpecialDiscount.js';
 import calculateWeekEndDiscount from '../utils/calculateWeekEndDiscount.js';
 import calculateGiveawyDiscountAmount from '../utils/calculateGiveawyDiscountAmount.js';
 import calculateBenefitTotalAmount from '../utils/calculateBenefitTotalAmount.js';
+import generateEventBadge from '../utils/generateEventBadge.js';
+import CONSTANTS from '../constants/constants.js';
 
 const OutputView = {
   printNotification(visitDate) {
@@ -91,6 +93,19 @@ const OutputView = {
       orderAmountBeforeDiscount,
     );
     Console.print(formatPriceWithCommas(benefitTotalAmount));
+  },
+
+  printEventBadge(visitDate, orderMenusInfo, dayOfWeek, orderAmountBeforeDiscount) {
+    Console.print(MESSAGE.print.eventBadgeResult);
+    const benefitTotalAmount = calculateBenefitTotalAmount(
+      visitDate,
+      orderMenusInfo,
+      dayOfWeek,
+      orderAmountBeforeDiscount,
+    );
+    const eventBadge = generateEventBadge(benefitTotalAmount);
+    if (eventBadge !== undefined) return Console.print(CONSTANTS.badge[eventBadge]);
+    return Console.print(MESSAGE.print.noResult);
   },
 };
 
