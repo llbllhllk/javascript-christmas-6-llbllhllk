@@ -1,7 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
 import MESSAGE from '../constants/message.js';
-import generateMenuNames from '../utils/generateMenuNames.js';
-import generateMenuPrices from '../utils/generateMenuPrices.js';
 import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
 import formatPriceWithCommas from '../utils/formatPriceWithCommas.js';
 import checkAddGiveaway from '../utils/checkAddGiveaway.js';
@@ -39,11 +37,19 @@ const OutputView = {
 
   printBenefitHistory(orderAmountBeforeDiscount, orderMenusInfo, visitDate, dayOfWeek) {
     Console.print(MESSAGE.print.benefitHistoryResult);
-    OutputView.printDDayDiscountAmount(visitDate);
-    OutputView.printWeekDayDiscountAmount(orderMenusInfo, dayOfWeek);
-    OutputView.printWeekEndDiscountAmount(orderMenusInfo, dayOfWeek);
-    OutputView.printSpecialDiscountAmount(visitDate, dayOfWeek);
-    OutputView.printGiveawyDiscountAmout(orderAmountBeforeDiscount);
+    const dDayDiscountAmount = OutputView.printDDayDiscountAmount(visitDate);
+    const weekDayDiscountAmount = OutputView.printWeekDayDiscountAmount(orderMenusInfo, dayOfWeek);
+    const weekEndDiscountAmount = OutputView.printWeekEndDiscountAmount(orderMenusInfo, dayOfWeek);
+    const specialDiscountAmount = OutputView.printSpecialDiscountAmount(visitDate, dayOfWeek);
+    const giveawayDiscountAmount = OutputView.printGiveawyDiscountAmout(orderAmountBeforeDiscount);
+    if (
+      !dDayDiscountAmount &&
+      !weekDayDiscountAmount &&
+      !weekEndDiscountAmount &&
+      !specialDiscountAmount &&
+      !giveawayDiscountAmount
+    )
+      Console.print(MESSAGE.print.noResult);
   },
 
   printDDayDiscountAmount(visitDate) {
