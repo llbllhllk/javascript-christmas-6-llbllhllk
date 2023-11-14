@@ -27,6 +27,12 @@ class ChristmasEventController {
     OutputView.printOrderAmountBeforeDiscount(orderMenusInfo);
     OutputView.printGiveawayMenu(orderMenusInfo);
     OutputView.printBenefitHistory(orderAmountBeforeDiscount, orderMenusInfo, visitDate, dayOfWeek);
+    OutputView.printBenefitTotalAmount(
+      visitDate,
+      orderMenusInfo,
+      dayOfWeek,
+      orderAmountBeforeDiscount,
+    );
   }
 
   static async #inputVisitDate() {
