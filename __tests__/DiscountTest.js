@@ -1,3 +1,4 @@
+import calculateBenefitTotalAmount from '../src/utils/calculateBenefitTotalAmount.js';
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
 import calculateGiveawyDiscountAmount from '../src/utils/calculateGiveawyDiscountAmount.js';
 import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
@@ -5,6 +6,7 @@ import calculateWeekDayDiscount from '../src/utils/calculateWeekDayDiscount.js';
 import calculateWeekEndDiscount from '../src/utils/calculateWeekEndDiscount.js';
 import generateMenuCount from '../src/utils/generateMenuCount.js';
 import generateMenuNames from '../src/utils/generateMenuNames.js';
+import generateMenuPrices from '../src/utils/generateMenuPrices.js';
 import generateMenusInfo from '../src/utils/generateMenusInfo.js';
 import generateOrderAmountBeforeDiscount from '../src/utils/generateOrderAmountBeforeDiscount.js';
 import getDayOfWeek from '../src/utils/getDayOfWeek.js';
@@ -34,7 +36,7 @@ describe('할인 혜택 기능 ', () => {
     const visitDate = 4;
     const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuPrices = generateMenuPrices(menuNames);
     const menuCount = generateMenuCount(value);
     const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
     const result = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
@@ -51,7 +53,7 @@ describe('할인 혜택 기능 ', () => {
     const visitDate = 8;
     const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuPrices = generateMenuPrices(menuNames);
     const menuCount = generateMenuCount(value);
     const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
     const result = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
@@ -68,7 +70,7 @@ describe('할인 혜택 기능 ', () => {
     const visitDate = 8;
     const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuPrices = generateMenuPrices(menuNames);
     const menuCount = generateMenuCount(value);
     const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
     const result = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
@@ -85,7 +87,7 @@ describe('할인 혜택 기능 ', () => {
     const visitDate = 4;
     const dayOfWeek = getDayOfWeek(visitDate);
     const menuNames = generateMenuNames(value);
-    const menuPrices = generateOrderAmountBeforeDiscount(menuNames);
+    const menuPrices = generateMenuPrices(menuNames);
     const menuCount = generateMenuCount(value);
     const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
     const result = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
@@ -119,6 +121,29 @@ describe('할인 혜택 기능 ', () => {
     const value = 90000;
     const expectedValue = false;
     const result = calculateGiveawyDiscountAmount(value);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test('총 혜택 금액을 계산하는 기능에서 모든 혜택의 할인 금액을 반환한다.', () => {
+    const value = [
+      ['해산물파스타', '2'],
+      ['레드와인', '1'],
+      ['초코케이크', '1'],
+    ];
+    const expectedValue = -28423;
+    const visitDate = 5;
+    const dayOfWeek = getDayOfWeek(visitDate);
+    const menuNames = generateMenuNames(value);
+    const menuPrices = generateMenuPrices(menuNames);
+    const menuCount = generateMenuCount(value);
+    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
+    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
+    const result = calculateBenefitTotalAmount(
+      visitDate,
+      orderMenusInfo,
+      dayOfWeek,
+      orderAmountBeforeDiscount,
+    );
     expect(result).toEqual(expectedValue);
   });
 });
