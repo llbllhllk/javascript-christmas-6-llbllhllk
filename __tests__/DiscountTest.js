@@ -1,4 +1,5 @@
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
+import calculateGiveawyDiscountAmount from '../src/utils/calculateGiveawyDiscountAmount.js';
 import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
 import calculateWeekDayDiscount from '../src/utils/calculateWeekDayDiscount.js';
 import calculateWeekEndDiscount from '../src/utils/calculateWeekEndDiscount.js';
@@ -104,6 +105,20 @@ describe('할인 혜택 기능 ', () => {
     const dayOfWeek = getDayOfWeek(visitDate);
     const expectedValue = false;
     const result = calculateSpecialDiscount(visitDate, dayOfWeek);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test('증정 이벤트 할인 기능에서 총 주문 금액이 12만원 이상이면 할인 금액을 반환한다.', () => {
+    const value = 130000;
+    const expectedValue = -25000;
+    const result = calculateGiveawyDiscountAmount(value);
+    expect(result).toEqual(expectedValue);
+  });
+
+  test('증정 이벤트 할인 기능에서 총 주문 금액이 12만원 이상이 아니면 false 반환한다.', () => {
+    const value = 90000;
+    const expectedValue = false;
+    const result = calculateGiveawyDiscountAmount(value);
     expect(result).toEqual(expectedValue);
   });
 });
