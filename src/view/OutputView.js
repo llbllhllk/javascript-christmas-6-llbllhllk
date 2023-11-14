@@ -4,9 +4,12 @@ import generateMenuNames from '../utils/generateMenuNames.js';
 import generateMenuPrices from '../utils/generateMenuPrices.js';
 import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
 import formatPriceWithCommas from '../utils/formatPriceWithCommas.js';
-import isAddGiveaway from '../utils/isAddGiveaway.js';
+import checkAddGiveaway from '../utils/checkAddGiveaway.js';
 import calculateDDayDiscount from '../utils/calculateDDayDiscount.js';
 import calculateWeekDayDiscount from '../utils/calculateWeekDayDiscount.js';
+import calculateSpecialDiscount from '../utils/calculateSpecialDiscount.js';
+import calculateWeekEndDiscount from '../utils/calculateWeekEndDiscount.js';
+import MENU from '../constants/menu.js';
 
 const OutputView = {
   printNotification(visitDate) {
@@ -19,11 +22,9 @@ const OutputView = {
     Console.print('\n');
   },
 
-  printOrderAmountBeforeDiscount(orderMenus) {
+  printOrderAmountBeforeDiscount(orderMenusInfo) {
     Console.print(MESSAGE.print.orderAmountBeforeDiscountResult);
-    const menuNames = generateMenuNames(orderMenus);
-    const menuPrices = generateMenuPrices(menuNames);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(menuPrices);
+    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
     Console.print(formatPriceWithCommas(orderAmountBeforeDiscount));
     Console.print('\n');
   },
@@ -33,21 +34,38 @@ const OutputView = {
     const menuNames = generateMenuNames(orderMenus);
     const menuPrices = generateMenuPrices(menuNames);
     const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(menuPrices);
-    if (isAddGiveaway(orderAmountBeforeDiscount))
+    if (checkAddGiveaway(orderAmountBeforeDiscount))
       return Console.print(MESSAGE.print.giveawayMenuTrueResult);
     return Console.print(MESSAGE.print.noResult);
   },
 
-  printBenefitHistory(orderMenus, visitDate) {
+  printBenefitHistory(orderAmountBeforeDiscount, orderMenusInfo, visitDate, dayOfWeek) {
     Console.print(MESSAGE.print.benefitHistoryResult);
-    const dDayDiscountAmount = formatPriceWithCommas(calculateDDayDiscount(visitDate));
-    const menuNames = generateMenuNames(orderMenus);
-    const weekDayDiscountAmount = formatPriceWithCommas(
-      calculateWeekDayDiscount(menuNames, visitDate),
-    );
-    Console.print(`크리스마스 디데이 할인: ${dDayDiscountAmount}
-    `);
-    if (weekDayDiscountAmount > 0) Console.print(`평일 할인: ${weekDayDiscountAmount}`);
+    OutputView.printDDayDiscountAmount(visitDate);
+
+    const weekDayDiscountAmount = calculateWeekDayDiscount(orderMenusInfo, dayOfWeek);
+    const weekEndDiscountAmount = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
+    const specialDiscountAmount = calculateSpecialDiscount(visitDate, dayOfWeek);
+    const isAddGiveaway = checkAddGiveaway(orderAmountBeforeDiscount);
+
+    if (weekDayDiscountAmount !== false)
+      Console.print(`평일 할인: ${formatPriceWithCommas(weekDayDiscountAmount)}`);
+
+    if (weekEndDiscountAmount !== false)
+      Console.print(`주말 할인: ${formatPriceWithCommas(weekEndDiscountAmount)}`);
+
+    if (specialDiscountAmount !== false)
+      Console.print(`특별 할인: ${formatPriceWithCommas(specialDiscountAmount)}`);
+
+    const champagnePrice = formatPriceWithCommas(-MENU.menu[MENU.menuName['champagne']].price);
+    if (isAddGiveaway) Console.print(`증정 이벤트: ${champagnePrice}`);
+  },
+
+  printDDayDiscountAmount(visitDate) {
+    const dDayDiscountAmount = calculateDDayDiscount(visitDate);
+    if (dDayDiscountAmount !== false)
+      Console.print(`크리스마스 디데이 할인: ${formatPriceWithCommas(dDayDiscountAmount)}
+  `);
   },
 };
 
