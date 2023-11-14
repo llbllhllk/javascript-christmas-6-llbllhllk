@@ -5,7 +5,7 @@ const read = {
 };
 
 const print = {
-  greeting: '안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.\n',
+  greeting: '안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.',
   orderMenuResult: '<주문 메뉴>',
   orderAmountBeforeDiscountResult: '\n<할인 전 총주문 금액>',
   giveawayMenuResult: '\n<증정 메뉴>',
