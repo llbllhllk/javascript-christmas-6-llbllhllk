@@ -1,4 +1,3 @@
-import calculateBenefitTotalAmount from '../src/utils/calculateBenefitTotalAmount.js';
 import calculateDDayDiscount from '../src/utils/calculateDDayDiscount.js';
 import calculateGiveawyDiscountAmount from '../src/utils/calculateGiveawyDiscountAmount.js';
 import calculateSpecialDiscount from '../src/utils/calculateSpecialDiscount.js';
@@ -8,7 +7,6 @@ import generateMenuCount from '../src/utils/generateMenuCount.js';
 import generateMenuNames from '../src/utils/generateMenuNames.js';
 import generateMenuPrices from '../src/utils/generateMenuPrices.js';
 import generateMenusInfo from '../src/utils/generateMenusInfo.js';
-import generateOrderAmountBeforeDiscount from '../src/utils/generateOrderAmountBeforeDiscount.js';
 import getDayOfWeek from '../src/utils/getDayOfWeek.js';
 
 describe('할인 혜택 기능 ', () => {
