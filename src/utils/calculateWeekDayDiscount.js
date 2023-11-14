@@ -2,7 +2,7 @@ import CONSTANTS from '../constants/constants.js';
 import MENU from '../constants/menu.js';
 
 const calculateWeekDayDiscount = (orderMenusInfo, dayOfWeek) => {
-  if (dayOfWeek >= CONSTANTS.week.monday && dayOfWeek <= CONSTANTS.week.thursday)
+  if (dayOfWeek >= CONSTANTS.week.sunday && dayOfWeek <= CONSTANTS.week.thursday)
     return -orderMenusInfo
       .filter(
         orderMenuInfo => MENU.menu[MENU.menuName[orderMenuInfo[0]]]['type'] === MENU.type.dessert,

@@ -15,8 +15,7 @@ const month = Object.freeze({
   december: 11,
 });
 
-const week = Object.freeze({
-  monday: 1,
+const week = Object.freeze({ 
   thursday: 4,
   friday: 5,
   saturday: 6,
