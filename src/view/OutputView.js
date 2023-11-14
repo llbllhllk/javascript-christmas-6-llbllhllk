@@ -29,11 +29,9 @@ const OutputView = {
     Console.print('\n');
   },
 
-  printGiveawayMenu(orderMenus) {
+  printGiveawayMenu(orderMenusInfo) {
     Console.print(MESSAGE.print.giveawayMenuResult);
-    const menuNames = generateMenuNames(orderMenus);
-    const menuPrices = generateMenuPrices(menuNames);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(menuPrices);
+    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
     if (checkAddGiveaway(orderAmountBeforeDiscount))
       return Console.print(MESSAGE.print.giveawayMenuTrueResult);
     return Console.print(MESSAGE.print.noResult);

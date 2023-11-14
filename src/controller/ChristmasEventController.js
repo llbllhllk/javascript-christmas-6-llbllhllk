@@ -25,7 +25,7 @@ class ChristmasEventController {
     OutputView.printNotification(visitDate);
     OutputView.printOrderMenu(orderMenus);
     OutputView.printOrderAmountBeforeDiscount(orderMenusInfo);
-    OutputView.printGiveawayMenu(orderMenus);
+    OutputView.printGiveawayMenu(orderMenusInfo);
     OutputView.printBenefitHistory(orderAmountBeforeDiscount, orderMenusInfo, visitDate, dayOfWeek);
   }
 
