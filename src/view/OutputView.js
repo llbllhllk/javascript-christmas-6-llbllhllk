@@ -44,13 +44,9 @@ const OutputView = {
     OutputView.printDDayDiscountAmount(visitDate);
     OutputView.printWeekDayDiscountAmount(orderMenusInfo, dayOfWeek);
     OutputView.printWeekEndDiscountAmount(orderMenusInfo, dayOfWeek);
-    
-    const specialDiscountAmount = calculateSpecialDiscount(visitDate, dayOfWeek);
+    OutputView.printSpecialDiscountAmount(visitDate, dayOfWeek);
+
     const isAddGiveaway = checkAddGiveaway(orderAmountBeforeDiscount);
-
-    if (specialDiscountAmount !== false)
-      Console.print(`특별 할인: ${formatPriceWithCommas(specialDiscountAmount)}`);
-
     const champagnePrice = formatPriceWithCommas(-MENU.menu[MENU.menuName['champagne']].price);
     if (isAddGiveaway) Console.print(`증정 이벤트: ${champagnePrice}`);
   },
@@ -72,6 +68,12 @@ const OutputView = {
     const weekEndDiscountAmount = calculateWeekEndDiscount(orderMenusInfo, dayOfWeek);
     if (weekEndDiscountAmount !== false)
       Console.print(`주말 할인: ${formatPriceWithCommas(weekEndDiscountAmount)}`);
+  },
+
+  printSpecialDiscountAmount(visitDate, dayOfWeek) {
+    const specialDiscountAmount = calculateSpecialDiscount(visitDate, dayOfWeek);
+    if (specialDiscountAmount !== false)
+      Console.print(`특별 할인: ${formatPriceWithCommas(specialDiscountAmount)}`);
   },
 };
 
