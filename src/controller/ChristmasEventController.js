@@ -33,6 +33,12 @@ class ChristmasEventController {
       dayOfWeek,
       orderAmountBeforeDiscount,
     );
+    OutputView.printOrderAmountAfterDiscount(
+      visitDate,
+      orderMenusInfo,
+      dayOfWeek,
+      orderAmountBeforeDiscount,
+    );
     OutputView.printEventBadge(visitDate, orderMenusInfo, dayOfWeek, orderAmountBeforeDiscount);
   }
 

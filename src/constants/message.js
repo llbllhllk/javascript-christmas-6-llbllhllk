@@ -12,6 +12,7 @@ const print = {
   benefitHistoryResult: '\n<혜택 내역>',
   benefitTotalAmountResult: '\n<총혜택 금액>',
   eventBadgeResult: '\n<12월 이벤트 배지>',
+  orderAmountAfterDiscountResult: '\n<할인 후 예상 결제 금액>',
   giveawayMenuTrueResult: '샴페인 1개',
   noResult: '없음',
 };
