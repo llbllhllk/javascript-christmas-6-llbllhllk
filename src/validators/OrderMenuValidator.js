@@ -11,6 +11,7 @@ class OrderMenuValidator {
       this.validateDuplicatedMenu,
       this.validateAllBeverage,
       this.validateMenuCountAboveThreshold,
+      this.validateNaNCount,
     ];
     validators.forEach(validator => validator(orderMenus));
   }
@@ -51,6 +52,12 @@ class OrderMenuValidator {
   static validateMenuCountAboveThreshold(orderMenus) {
     const menuCountSum = orderMenus.reduce((acc, cur) => (acc += Number(cur[1])), 0);
     if (menuCountSum > CONSTANTS.menu.maxQuantity) throw new Error(ERROR.menu.invalidOrder);
+  }
+
+  static validateNaNCount(orderMenus) {
+    orderMenus.forEach(orderMenu => {
+      if (isNaN(Number(orderMenu[1]))) throw new Error(ERROR.menu.invalidOrder);
+    });
   }
 }
 
