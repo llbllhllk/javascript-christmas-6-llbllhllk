@@ -9,7 +9,7 @@ class Giveaway {
 
   static calculateGiveawyDiscountAmount(orderAmountBeforeDiscount) {
     const isAddGiveaway = this.checkAddGiveaway(orderAmountBeforeDiscount);
-    if (isAddGiveaway) return -MENU.menu[MENU.menuName['champagne']].price;
+    if (isAddGiveaway) return -MENU.menu[MENU.menuName.champagne].price;
     return false;
   }
 }

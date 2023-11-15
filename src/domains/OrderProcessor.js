@@ -29,8 +29,7 @@ class OrderProcessor {
   }
 
   static #createOrderAmount(visitDate, orderManager) {
-    const menusInfo = orderManager.menusInfo;
-    const dayOfWeek = orderManager.dayOfWeek;
+    const { menusInfo, dayOfWeek } = orderManager;
     const beforeDiscount = OrderAmount.calculateAmountBeforeDiscount(menusInfo);
     const totalDiscount = OrderAmount.calculateDiscountTotalAmount(visitDate, menusInfo, dayOfWeek);
     const afterDiscount = OrderAmount.calculateOrderAmountAfterDiscount(
@@ -41,17 +40,16 @@ class OrderProcessor {
   }
 
   static #createGiveaway(orderAmount) {
-    const beforeDiscount = orderAmount.beforeDiscount;
+    const { beforeDiscount } = orderAmount;
     const isAddGiveaway = Giveaway.checkAddGiveaway(beforeDiscount);
     const giveawayDiscount = Giveaway.calculateGiveawyDiscountAmount(beforeDiscount);
     return { isAddGiveaway, giveawayDiscount };
   }
 
   static #createBenefit(visitDate, orderManager, orderAmount, giveaway) {
-    const menusInfo = orderManager.menusInfo;
-    const dayOfWeek = orderManager.dayOfWeek;
-    const totalDiscount = orderAmount.totalDiscount;
-    const giveawayDiscount = giveaway.giveawayDiscount;
+    const { menusInfo, dayOfWeek } = orderManager;
+    const { totalDiscount } = orderAmount;
+    const { giveawayDiscount } = giveaway;
     const dDay = Benefit.calculateDDayDiscount(visitDate);
     const weekDay = Benefit.calculateWeekDayDiscount(menusInfo, dayOfWeek);
     const weekEnd = Benefit.calculateWeekEndDiscount(menusInfo, dayOfWeek);

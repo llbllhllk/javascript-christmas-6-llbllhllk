@@ -5,6 +5,7 @@ import VisitDateValidator from '../validators/VisitDateValidator.js';
 
 class OrderManager {
   #visitDate;
+  
   #orderMenus;
 
   constructor(visitDate, orderMenus) {

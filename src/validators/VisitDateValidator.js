@@ -9,7 +9,7 @@ class VisitDateValidator {
 
   static validateOutOfRangeDay(visitDate) {
     if (
-      isNaN(visitDate) ||
+      Number.isNaN(visitDate) ||
       Number(visitDate) < CONSTANTS.day.minDay ||
       Number(visitDate) > CONSTANTS.day.maxDay
     )

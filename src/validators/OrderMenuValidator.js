@@ -25,7 +25,7 @@ class OrderMenuValidator {
   }
 
   static validateOrderMenuQuantity(orderMenus) {
-    orderMenus.map(menuItem => {
+    orderMenus.forEach(menuItem => {
       const quantity = Number(menuItem[1]);
       if (quantity < CONSTANTS.menu.minQuantity) throw new Error(ERROR.menu.invalidOrder);
     });
@@ -45,18 +45,18 @@ class OrderMenuValidator {
   static validateAllBeverage(orderMenus) {
     const isAllBeverage = orderMenus
       .map(orderMenu => Object.keys(MENU.menuName).find(key => MENU.menuName[key] === orderMenu[0]))
-      .every(item => MENU.menu[MENU.menuName[item]]['type'] === MENU.type.beverage);
+      .every(item => MENU.menu[MENU.menuName[item]].type === MENU.type.beverage);
     if (isAllBeverage) throw new Error(ERROR.menu.invalidOrder);
   }
 
   static validateMenuCountAboveThreshold(orderMenus) {
-    const menuCountSum = orderMenus.reduce((acc, cur) => (acc += Number(cur[1])), 0);
+    const menuCountSum = orderMenus.reduce((acc, cur) => acc + Number(cur[1]), 0);
     if (menuCountSum > CONSTANTS.menu.maxQuantity) throw new Error(ERROR.menu.invalidOrder);
   }
 
   static validateNaNCount(orderMenus) {
     orderMenus.forEach(orderMenu => {
-      if (isNaN(Number(orderMenu[1]))) throw new Error(ERROR.menu.invalidOrder);
+      if (Number.isNaN(Number(orderMenu[1]))) throw new Error(ERROR.menu.invalidOrder);
     });
   }
 }

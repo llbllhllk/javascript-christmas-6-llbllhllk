@@ -31,8 +31,8 @@ class Benefit {
 
   static #calculateWeeksDiscount(orderMenusInfo, curType) {
     return -orderMenusInfo
-      .filter(orderMenuInfo => MENU.menu[MENU.menuName[orderMenuInfo[0]]]['type'] === curType)
-      .reduce((acc, cur) => (acc += cur[2] * CONSTANTS.price.discountAmount), 0);
+      .filter(orderMenuInfo => MENU.menu[MENU.menuName[orderMenuInfo[0]]].type === curType)
+      .reduce((acc, cur) => acc + cur[2] * CONSTANTS.price.discountAmount, 0);
   }
 
   static getEventBadge(benefitTotalAmount) {
@@ -43,6 +43,7 @@ class Benefit {
     if (positiveBenefitTotalAmount >= treeThreshold && positiveBenefitTotalAmount < santaThreshold)
       return 'tree';
     if (positiveBenefitTotalAmount >= santaThreshold) return 'santa';
+    return undefined;
   }
 }
 
