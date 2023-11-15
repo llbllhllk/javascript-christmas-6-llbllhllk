@@ -1,13 +1,7 @@
-import getDayOfWeek from '../src/utils/getDayOfWeek.js';
-import generateMenuCount from '../src/utils/generateMenuCount.js';
-import generateMenuNames from '../src/utils/generateMenuNames.js';
-import generateMenuPrices from '../src/utils/generateMenuPrices.js';
-import generateMenusInfo from '../src/utils/generateMenusInfo.js';
-import generateOrderAmountBeforeDiscount from '../src/utils/generateOrderAmountBeforeDiscount.js';
-import calculateDiscountTotalAmount from '../src/utils/calculateDiscountTotalAmount.js';
-import generateEventBadge from '../src/utils/generateEventBadge';
-import calculateOrderAmountAfterDiscount from '../src/utils/calculateOrderAmountAfterDiscount.js';
-import calculateGiveawyDiscountAmount from '../src/utils/calculateGiveawyDiscountAmount.js';
+import OrderManager from '../src/domains/OrderManager.js';
+import OrderAmount from '../src/domains/OrderAmount.js';
+import Giveaway from '../src/domains/Giveaway.js';
+import Benefit from '../src/domains/Benefit.js';
 
 describe('혜택 관련 기능', () => {
   test('총 혜택 금액을 계산하는 기능에서 모든 혜택의 할인 금액을 반환한다.', () => {
@@ -18,14 +12,17 @@ describe('혜택 관련 기능', () => {
     ];
     const expectedValue = -28423;
     const visitDate = 5;
-    const dayOfWeek = getDayOfWeek(visitDate);
-    const menuNames = generateMenuNames(value);
-    const menuPrices = generateMenuPrices(menuNames);
-    const menuCount = generateMenuCount(value);
-    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
-    const discountTotalAmount = calculateDiscountTotalAmount(visitDate, orderMenusInfo, dayOfWeek);
-    const giveawayDiscountAmount = calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
+    const orderManager = new OrderManager(visitDate, value);
+    const menusInfo = orderManager.getMenusInfo();
+    const dayOfWeek = orderManager.getDayOfWeek();
+    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(menusInfo);
+    const discountTotalAmount = OrderAmount.calculateDiscountTotalAmount(
+      visitDate,
+      menusInfo,
+      dayOfWeek,
+    );
+    const giveawayDiscountAmount =
+      Giveaway.calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
     const result = discountTotalAmount + giveawayDiscountAmount;
     expect(result).toEqual(expectedValue);
   });
@@ -38,16 +35,19 @@ describe('혜택 관련 기능', () => {
     ];
     const expectedValue = 'santa';
     const visitDate = 5;
-    const dayOfWeek = getDayOfWeek(visitDate);
-    const menuNames = generateMenuNames(value);
-    const menuPrices = generateMenuPrices(menuNames);
-    const menuCount = generateMenuCount(value);
-    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
-    const discountTotalAmount = calculateDiscountTotalAmount(visitDate, orderMenusInfo, dayOfWeek);
-    const giveawayDiscountAmount = calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
+    const orderManager = new OrderManager(visitDate, value);
+    const menusInfo = orderManager.getMenusInfo();
+    const dayOfWeek = orderManager.getDayOfWeek();
+    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(menusInfo);
+    const discountTotalAmount = OrderAmount.calculateDiscountTotalAmount(
+      visitDate,
+      menusInfo,
+      dayOfWeek,
+    );
+    const giveawayDiscountAmount =
+      Giveaway.calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
     const benefitTotalAmount = discountTotalAmount + giveawayDiscountAmount;
-    const result = generateEventBadge(benefitTotalAmount);
+    const result = Benefit.getEventBadge(benefitTotalAmount);
     expect(result).toEqual(expectedValue);
   });
 
@@ -59,16 +59,19 @@ describe('혜택 관련 기능', () => {
     ];
     const expectedValue = undefined;
     const visitDate = 5;
-    const dayOfWeek = getDayOfWeek(visitDate);
-    const menuNames = generateMenuNames(value);
-    const menuPrices = generateMenuPrices(menuNames);
-    const menuCount = generateMenuCount(value);
-    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
-    const discountTotalAmount = calculateDiscountTotalAmount(visitDate, orderMenusInfo, dayOfWeek);
-    const giveawayDiscountAmount = calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
+    const orderManager = new OrderManager(visitDate, value);
+    const menusInfo = orderManager.getMenusInfo();
+    const dayOfWeek = orderManager.getDayOfWeek();
+    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(menusInfo);
+    const discountTotalAmount = OrderAmount.calculateDiscountTotalAmount(
+      visitDate,
+      menusInfo,
+      dayOfWeek,
+    );
+    const giveawayDiscountAmount =
+      Giveaway.calculateGiveawyDiscountAmount(orderAmountBeforeDiscount);
     const benefitTotalAmount = discountTotalAmount + giveawayDiscountAmount;
-    const result = generateEventBadge(benefitTotalAmount);
+    const result = Benefit.getEventBadge(benefitTotalAmount);
     expect(result).toEqual(expectedValue);
   });
 
@@ -80,14 +83,16 @@ describe('혜택 관련 기능', () => {
     ];
     const expectedValue = 141577;
     const visitDate = 5;
-    const dayOfWeek = getDayOfWeek(visitDate);
-    const menuNames = generateMenuNames(value);
-    const menuPrices = generateMenuPrices(menuNames);
-    const menuCount = generateMenuCount(value);
-    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
-    const discountTotalAmount = calculateDiscountTotalAmount(visitDate, orderMenusInfo, dayOfWeek);
-    const result = calculateOrderAmountAfterDiscount(
+    const orderManager = new OrderManager(visitDate, value);
+    const menusInfo = orderManager.getMenusInfo();
+    const dayOfWeek = orderManager.getDayOfWeek();
+    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(menusInfo);
+    const discountTotalAmount = OrderAmount.calculateDiscountTotalAmount(
+      visitDate,
+      menusInfo,
+      dayOfWeek,
+    );
+    const result = OrderAmount.calculateOrderAmountAfterDiscount(
       orderAmountBeforeDiscount,
       discountTotalAmount,
     );
