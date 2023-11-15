@@ -128,4 +128,24 @@ describe('주문 메뉴와 개수 입력 예외 상황 테스트', () => {
     const result = () => OrderMenuValidator.validateMenuCountAboveThreshold(value);
     expect(result).toThrow(ERROR.menu.invalidOrder);
   });
+
+  test('메뉴의 개수가 숫자인 경우 undefined를 반환한다.', () => {
+    const value = [
+      ['해산물파스타', '1'],
+      ['타파스', '2'],
+      ['바비큐립', '3'],
+    ];
+    const result = OrderMenuValidator.validateNaNCount(value);
+    expect(result).toBeUndefined();
+  });
+
+  test('메뉴의 개수가 숫자가 아닌 경우 예외처리를 한다.', () => {
+    const value = [
+      ['해산물파스타', '18'],
+      ['타파스', 'a'],
+      ['바비큐립', '3'],
+    ];
+    const result = () => OrderMenuValidator.validateNaNCount(value);
+    expect(result).toThrow(ERROR.menu.invalidOrder);
+  });
 });
