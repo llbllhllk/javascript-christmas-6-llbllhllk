@@ -4,44 +4,47 @@ import MENU from '../constants/menu.js';
 
 class OrderMenuValidator {
   static validateOrderMenu(orderMenus) {
-    const menuItems = orderMenus
-      .split(',')
-      .map(menu => menu.trim())
-      .map(menu => menu.split('-'))
-      .map(menuAndCount => menuAndCount.map(str => str.trim()));
     const validators = [
       this.validateNoMenu,
       this.validateOrderMenuQuantity,
       this.validateFormat,
       this.validateDuplicatedMenu,
+      this.validateAllBeverage,
     ];
-    validators.forEach(validator => validator(menuItems));
+    validators.forEach(validator => validator(orderMenus));
   }
 
-  static validateNoMenu(menuItems) {
-    const menus = menuItems.map(menuItem => {
+  static validateNoMenu(orderMenus) {
+    const menus = orderMenus.map(menuItem => {
       const menu = menuItem[0];
       return Object.keys(MENU.menuName).find(key => MENU.menuName[key] === menu);
     });
     if (menus.includes(undefined)) throw new Error(ERROR.menu.invalidOrder);
   }
 
-  static validateOrderMenuQuantity(menuItems) {
-    menuItems.map(menuItem => {
+  static validateOrderMenuQuantity(orderMenus) {
+    orderMenus.map(menuItem => {
       const quantity = Number(menuItem[1]);
       if (quantity < CONSTANTS.menu.minQuantity) throw new Error(ERROR.menu.invalidOrder);
     });
   }
 
-  static validateFormat(menuItems) {
-    menuItems.forEach(item => {
+  static validateFormat(orderMenus) {
+    orderMenus.forEach(item => {
       if (item.length !== CONSTANTS.menu.formatLength) throw new Error(ERROR.menu.invalidOrder);
     });
   }
 
-  static validateDuplicatedMenu(menuItems) {
-    if (menuItems.length !== new Set(menuItems.map(item => item[0])).size)
+  static validateDuplicatedMenu(orderMenus) {
+    if (orderMenus.length !== new Set(orderMenus.map(item => item[0])).size)
       throw new Error(ERROR.menu.invalidOrder);
+  }
+
+  static validateAllBeverage(orderMenus) {
+    const isAllBeverage = orderMenus
+      .map(orderMenu => Object.keys(MENU.menuName).find(key => MENU.menuName[key] === orderMenu[0]))
+      .every(item => MENU.menu[MENU.menuName[item]]['type'] === MENU.type.beverage);
+    if (isAllBeverage) throw new Error(ERROR.menu.invalidOrder);
   }
 }
 

@@ -1,13 +1,21 @@
 import CONSTANTS from '../constants/constants.js';
 import MENU from '../constants/menu.js';
+import OrderMenuValidator from '../validators/OrderMenuValidator.js';
+import VisitDateValidator from '../validators/VisitDateValidator.js';
 
 class OrderManager {
   #visitDate;
   #orderMenus;
 
   constructor(visitDate, orderMenus) {
+    this.#validate(visitDate, orderMenus);
     this.#visitDate = visitDate;
     this.#orderMenus = orderMenus;
+  }
+
+  #validate(visitDate, orderMenus) {
+    VisitDateValidator.validateVisitDate(visitDate);
+    OrderMenuValidator.validateOrderMenu(orderMenus);
   }
 
   getMenusInfo() {
