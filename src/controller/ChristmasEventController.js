@@ -1,28 +1,33 @@
-import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
-import OrderManager from '../domains/OrderManager.js';
-import OrderAmount from '../domains/OrderAmount.js';
-import Benefit from '../domains/Benefit.js';
+import OrderProcessor from '../domains/OrderProcessor.js';
 
 class ChristmasEventController {
-  constructor() {}
-
   static async start() {
     OutputView.printGreeting();
-    const visitDate = await InputView.readVisitDate();
-    const orderMenus = await InputView.readOrderMenu();
-    const orderManager = new OrderManager(visitDate, orderMenus);
-    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(
-      orderManager.getMenusInfo(),
-    );
+    const processedOrder = await OrderProcessor.processOrder();
+    this.#printOutput(processedOrder);
+  }
+
+  static #printOutput(processedOrder) {
+    const { visitDate, orderMenus, orderAmount, giveaway, benefit } = processedOrder;
     OutputView.printNotification(visitDate);
     OutputView.printOrderMenu(orderMenus);
-    OutputView.printOrderAmountBeforeDiscount(orderAmountBeforeDiscount);
-    OutputView.printGiveawayMenu(orderAmountBeforeDiscount);
-    OutputView.printBenefitHistory(orderManager, visitDate);
-    OutputView.printBenefitTotalAmount(visitDate, orderManager, orderAmountBeforeDiscount);
-    OutputView.printOrderAmountAfterDiscount(visitDate, orderManager, orderAmountBeforeDiscount);
-    OutputView.printEventBadge(visitDate, orderManager, orderAmountBeforeDiscount);
+    OutputView.printOrderAmountBeforeDiscount(orderAmount.beforeDiscount);
+    OutputView.printGiveawayMenu(giveaway.isAddGiveaway);
+    this.#printBenefitHistory(benefit, giveaway);
+    OutputView.printBenefitTotalAmount(orderAmount.totalDiscount, giveaway.giveawayDiscount);
+    OutputView.printOrderAmountAfterDiscount(orderAmount.afterDiscount);
+    OutputView.printEventBadge(benefit.eventBadge);
+  }
+
+  static #printBenefitHistory(benefit, giveaway) {
+    OutputView.printBenefitHistory(
+      benefit.dDay,
+      benefit.weekDay,
+      benefit.weekEnd,
+      benefit.special,
+      giveaway.giveawayDiscount,
+    );
   }
 }
 
