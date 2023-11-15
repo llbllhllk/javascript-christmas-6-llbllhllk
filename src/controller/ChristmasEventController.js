@@ -1,52 +1,28 @@
 import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
-import generateMenuNames from '../utils/generateMenuNames.js';
-import generateMenuPrices from '../utils/generateMenuPrices.js';
-import generateMenuCount from '../utils/generateMenuCount.js';
-import generateMenusInfo from '../utils/generateMenusInfo.js';
-import getDayOfWeek from '../utils/getDayOfWeek.js';
-import generateOrderAmountBeforeDiscount from '../utils/generateOrderAmountBeforeDiscount.js';
+import OrderManager from '../domains/OrderManager.js';
+import OrderAmount from '../domains/OrderAmount.js';
+import Benefit from '../domains/Benefit.js';
 
 class ChristmasEventController {
   constructor() {}
 
   static async start() {
-    const visitDate = await this.#inputVisitDate();
-    const orderMenus = await this.#inputOrderMenu();
-
-    const dayOfWeek = getDayOfWeek(visitDate);
-    const menuNames = generateMenuNames(orderMenus);
-    const menuPrices = generateMenuPrices(menuNames);
-    const menuCount = generateMenuCount(orderMenus);
-    const orderMenusInfo = generateMenusInfo(menuNames, menuPrices, menuCount);
-    const orderAmountBeforeDiscount = generateOrderAmountBeforeDiscount(orderMenusInfo);
-
+    OutputView.printGreeting();
+    const visitDate = await InputView.readVisitDate();
+    const orderMenus = await InputView.readOrderMenu();
+    const orderManager = new OrderManager(visitDate, orderMenus);
+    const orderAmountBeforeDiscount = OrderAmount.calculateAmountBeforeDiscount(
+      orderManager.getMenusInfo(),
+    );
     OutputView.printNotification(visitDate);
     OutputView.printOrderMenu(orderMenus);
-    OutputView.printOrderAmountBeforeDiscount(orderMenusInfo);
-    OutputView.printGiveawayMenu(orderMenusInfo);
-    OutputView.printBenefitHistory(orderAmountBeforeDiscount, orderMenusInfo, visitDate, dayOfWeek);
-    OutputView.printBenefitTotalAmount(
-      visitDate,
-      orderMenusInfo,
-      dayOfWeek,
-      orderAmountBeforeDiscount,
-    );
-    OutputView.printOrderAmountAfterDiscount(
-      visitDate,
-      orderMenusInfo,
-      dayOfWeek,
-      orderAmountBeforeDiscount,
-    );
-    OutputView.printEventBadge(visitDate, orderMenusInfo, dayOfWeek, orderAmountBeforeDiscount);
-  }
-
-  static async #inputVisitDate() {
-    return InputView.readVisitDate();
-  }
-
-  static async #inputOrderMenu() {
-    return InputView.readOrderMenu();
+    OutputView.printOrderAmountBeforeDiscount(orderAmountBeforeDiscount);
+    OutputView.printGiveawayMenu(orderAmountBeforeDiscount);
+    OutputView.printBenefitHistory(orderManager, visitDate);
+    OutputView.printBenefitTotalAmount(visitDate, orderManager, orderAmountBeforeDiscount);
+    OutputView.printOrderAmountAfterDiscount(visitDate, orderManager, orderAmountBeforeDiscount);
+    OutputView.printEventBadge(visitDate, orderManager, orderAmountBeforeDiscount);
   }
 }
 

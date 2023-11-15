@@ -17,7 +17,7 @@ class OrderManager {
     return menuNames.map((element, index) => [element, menuPrices[index], menuCount[index]]);
   }
 
-  getDayOfweek() {
+  getDayOfWeek() {
     return new Date(new Date().getFullYear(), CONSTANTS.month.december, this.#visitDate).getDay();
   }
 

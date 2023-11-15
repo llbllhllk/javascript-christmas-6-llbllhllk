@@ -15,7 +15,12 @@ const month = Object.freeze({
   december: 11,
 });
 
-const week = Object.freeze({ 
+const dayOfWeek = Object.freeze({
+  weekDay: '평일',
+  weekEnd: '주말',
+});
+
+const week = Object.freeze({
   thursday: 4,
   friday: 5,
   saturday: 6,
@@ -45,6 +50,7 @@ const CONSTANTS = Object.freeze({
   price,
   menu,
   day,
+  dayOfWeek,
   week,
   month,
   badge,
