@@ -10,6 +10,7 @@ class OrderMenuValidator {
       this.validateFormat,
       this.validateDuplicatedMenu,
       this.validateAllBeverage,
+      this.validateMenuCountAboveThreshold,
     ];
     validators.forEach(validator => validator(orderMenus));
   }
@@ -45,6 +46,11 @@ class OrderMenuValidator {
       .map(orderMenu => Object.keys(MENU.menuName).find(key => MENU.menuName[key] === orderMenu[0]))
       .every(item => MENU.menu[MENU.menuName[item]]['type'] === MENU.type.beverage);
     if (isAllBeverage) throw new Error(ERROR.menu.invalidOrder);
+  }
+
+  static validateMenuCountAboveThreshold(orderMenus) {
+    const menuCountSum = orderMenus.reduce((acc, cur) => (acc += Number(cur[1])), 0);
+    if (menuCountSum > CONSTANTS.menu.maxQuantity) throw new Error(ERROR.menu.invalidOrder);
   }
 }
 

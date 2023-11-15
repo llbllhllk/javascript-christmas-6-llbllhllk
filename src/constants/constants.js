@@ -8,6 +8,7 @@ const price = Object.freeze({
 
 const menu = Object.freeze({
   minQuantity: 1,
+  maxQuantity: 20,
   formatLength: 2,
 });
 
